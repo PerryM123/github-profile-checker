@@ -9,7 +9,7 @@ servers:
   - url: https://vercel-todo.com
     description: Production server
 paths:
-  /api/search:
+  /api/v1/search:
     get:
       summary: GitHubリポジトリを検索する
       tags:
@@ -53,9 +53,9 @@ paths:
                         repository_name:
                           type: string
                           description: リポジトリ名
-                        user_name:
+                        owner_name:
                           type: string
-                          description: ユーザー名
+                          description: 管理者の名前
                     description: 検索結果の配列
                 required:
                   - total_pages
@@ -67,94 +67,94 @@ paths:
                 result:
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'github-profile-checker'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'memories_backend'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'split-my-receipt-up-frontend'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'take-home-assignment'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'image-compressor'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'split-my-receipt-up-swagger-doc'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'open-ai-api-mock-environment'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'Change-To-Old-Reddit'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'ranking-project'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'my-download-box-frontend'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'check-room-temp-frontend'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'check-room-temp'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'my-download-box-backend'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'splitting-the-cost'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'tekken-frame-data-admin'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'tekken-frame-data-backend'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'tekken-frame-data'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'BluePrintAlarmClock'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'Game-Center-Search-App'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'my-fun-express-server'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'nextJsProject'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'meetup-tsuu'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'Music-Note-Fingering-Practice'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'fun-with-es6-and-typescript'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'testing-jest-and-enzyme'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'Having-fun-playing-with-ajax'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'Practicing-Touch-and-Mouse-Events'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'User-List-App'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'React-Redux-Practice'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
                   - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
                     repository_name: 'fun-with-fetch-js-and-reactjs'
-                    user_name: 'PerryM123'
+                    owner_name: 'PerryM123'
         '400':
           description: 必須パラメータは足りてません
           content:
@@ -175,3 +175,88 @@ paths:
                   error_message:
                     type: string
                     example: An unexpected error occurred
+  /api/v1/{owner_name}/{repo_name}:
+    get:
+      summary: リポジトリ詳細を取得する
+      tags:
+        - Github Repository APIs
+      parameters:
+        - in: path
+          name: owner_name
+          required: true
+          schema:
+            type: string
+          description: リポジトリ管理者
+          example: facebook
+        - in: path
+          name: repo_name
+          required: true
+          schema:
+            type: string
+          description: リポジトリ名
+          example: react
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  avatar_url:
+                    type: string
+                    description: ユーザーのアバターURL
+                  language:
+                    type: string
+                    description: 使用している言語一覧
+                  repository_info:
+                    type: object
+                    description: リポジトリ情報
+                    properties:
+                      star_count:
+                        type: integer
+                      watcher_count:
+                        type: integer
+                      fork_count:
+                        type: integer
+                      issues_count:
+                        type: integer
+                    required:
+                      - star_count
+                      - watcher_count
+                      - fork_count
+                      - issues_count
+                required:
+                  - avatar_url
+                  - language
+                  - repository_info
+              example:
+                avatar_url: 'https://avatars.githubusercontent.com/u/69631?v=4'
+                language: 'TypeScript'
+                repository_info:
+                  star_count: 53157
+                  watcher_count: 53157
+                  fork_count: 9064
+                  issues_count: 1002
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+              example:
+                error_message: 'owner_name または repo_name が不正です'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+              example:
+                error_message: 'An unexpected error occurred'
