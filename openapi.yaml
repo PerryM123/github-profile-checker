@@ -1,0 +1,177 @@
+openapi: 3.0.0
+info:
+  title: GitHub Profile Checker API
+  version: 1.0.0
+  description: GitHub Profile CheckerのAPI仕様書です。
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://vercel-todo.com
+    description: Production server
+paths:
+  /api/search:
+    get:
+      summary: GitHubリポジトリを検索する
+      tags:
+        - Github Repository APIs
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+          description: 検索クエリ
+          example: some_keyword_here
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: ページ目
+          example: 5
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_pages:
+                    type: integer
+                    description: ページ数（1ページは最大30項目）
+                  total_count:
+                    type: integer
+                    description: 結果件数
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        avatar_url:
+                          type: string
+                          description: ユーザーのアバターURL
+                        repository_name:
+                          type: string
+                          description: リポジトリ名
+                        user_name:
+                          type: string
+                          description: ユーザー名
+                    description: 検索結果の配列
+                required:
+                  - total_pages
+                  - total_count
+                  - result
+              example:
+                total_pages: 2
+                total_count: 42
+                result:
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/github-profile-checker'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/memories_backend'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/split-my-receipt-up-frontend'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/take-home-assignment'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/image-compressor'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/split-my-receipt-up-swagger-doc'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/open-ai-api-mock-environment'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/Change-To-Old-Reddit'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/ranking-project'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/my-download-box-frontend'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/check-room-temp-frontend'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/check-room-temp'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/my-download-box-backend'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/splitting-the-cost'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/tekken-frame-data-admin'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/tekken-frame-data-backend'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/tekken-frame-data'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/BluePrintAlarmClock'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/Game-Center-Search-App'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/my-fun-express-server'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/nextJsProject'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/meetup-tsuu'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/Music-Note-Fingering-Practice'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/fun-with-es6-and-typescript'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/testing-jest-and-enzyme'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/Having-fun-playing-with-ajax'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/Practicing-Touch-and-Mouse-Events'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/User-List-App'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/React-Redux-Practice'
+                    user_name: 'PerryM123'
+                  - avatar_url: 'https://avatars.githubusercontent.com/u/7286214?v=4'
+                    repository_name: 'PerryM123/fun-with-fetch-js-and-reactjs'
+                    user_name: 'PerryM123'
+        '400':
+          description: 必須パラメータは足りてません
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+                    example: qのパラメータは足りてません
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+                    example: An unexpected error occurred
