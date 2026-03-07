@@ -16,8 +16,7 @@ export async function githubFetch<T>(url: string): Promise<T> {
   }
   const token = process.env.GITHUB_TOKEN
   if (token) headers.Authorization = `Bearer ${token}`
-  // TODO: 動作確認必須。cache作戦は検討中！vercelなら{revalidate: 60}などでもいける気がする
-  const res = await fetch(url, { headers, cache: 'no-store' })
+  const res = await fetch(url, { headers, next: { revalidate: 120 } })
   if (!res.ok) {
     let payload: GithubErrorPayload | undefined
     try {
