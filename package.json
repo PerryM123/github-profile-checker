@@ -13,14 +13,18 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
+    "js-yaml": "^4.1.0",
     "next": "16.1.6",
+    "next-swagger-doc": "^0.4.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "swagger-ui-react": "^5.32.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
