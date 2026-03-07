@@ -249,6 +249,17 @@ paths:
                     type: string
               example:
                 error_message: 'owner_name または repo_name が不正です'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+              example:
+                error_message: 'owner_name または repo_name は存在しません'
         '500':
           description: Internal Server Error
           content:

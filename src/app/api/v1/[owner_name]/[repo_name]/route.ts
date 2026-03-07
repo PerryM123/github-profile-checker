@@ -30,7 +30,6 @@ export async function GET(
 
   try {
     const data = await githubFetch<GithubRepoResponse>(url)
-
     return NextResponse.json(
       {
         avatar_url: data.owner.avatar_url,
@@ -47,10 +46,10 @@ export async function GET(
   } catch (e) {
     const err = e as Partial<GithubFetchError>
 
-    if (err.status === 404) {
+    if (err.status === STATUS_CODE.NOT_FOUND) {
       return NextResponse.json(
-        { error_message: 'owner_name または repo_name が不正です' },
-        { status: STATUS_CODE.BAD_REQUEST }
+        { error_message: 'owner_name または repo_name は存在しません' },
+        { status: STATUS_CODE.NOT_FOUND }
       )
     }
 
