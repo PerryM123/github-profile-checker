@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { githubFetch, type GithubFetchError } from '@/lib/github'
 import { STATUS_CODE } from '@/app/constants'
+import { logApiError, logApiWarn } from '@/lib/logger'
 
 type GithubSearchResponse = {
   total_count: number
@@ -16,6 +17,7 @@ export async function GET(req: Request) {
   const q = searchParams.get('q')?.trim()
   const pageParam = searchParams.get('page')
   if (!q) {
+    logApiWarn('検索クエリ q パラメータが指定されていません')
     return NextResponse.json(
       { error_message: 'qのパラメータは足りてません' },
       { status: STATUS_CODE.BAD_REQUEST }
@@ -23,6 +25,11 @@ export async function GET(req: Request) {
   }
   const page = pageParam ? Number(pageParam) : 1
   if (Number.isNaN(page) || !Number.isFinite(page) || page < 1) {
+    logApiWarn('page パラメータのバリデーションに失敗しました', {
+      q,
+      page: pageParam,
+      url: req.url,
+    })
     return NextResponse.json(
       { error_message: 'pageパラメータが不正です' },
       { status: STATUS_CODE.BAD_REQUEST }
@@ -48,8 +55,12 @@ export async function GET(req: Request) {
       },
       { status: STATUS_CODE.OK }
     )
-  } catch (e) {
-    const err = e as Partial<GithubFetchError>
+  } catch (error) {
+    const err = error as Partial<GithubFetchError>
+    logApiError('GitHub 検索APIリクエストが失敗しました', error, {
+      url,
+      status: err.status,
+    })
     return NextResponse.json(
       { error_message: err.message ?? '予期せぬエラーが発生しました' },
       { status: STATUS_CODE.INTERNAL_SERVER_ERROR }

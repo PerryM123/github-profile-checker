@@ -1,3 +1,5 @@
+import { logApiError } from '@/lib/logger'
+
 type GithubErrorPayload = {
   message?: string
   documentation_url?: string
@@ -21,13 +23,15 @@ export async function githubFetch<T>(url: string): Promise<T> {
     let payload: GithubErrorPayload | undefined
     try {
       payload = (await res.json()) as GithubErrorPayload
-    } catch {
-      // TODO: エラーハンドリングは検討中
-      // TODO: log出力も必要。pinoにしようかな
+    } catch (error) {
+      logApiError('GitHub API エラーレスポンスのパースに失敗しました', error, {
+        url,
+        status: res.status,
+      })
     }
     const err: GithubFetchError = {
       status: res.status,
-      message: payload?.message ?? `GitHub API request failed (${res.status})`,
+      message: payload?.message ?? `GitHub APIリクエストが失敗しました`,
       documentation_url: payload?.documentation_url,
     }
     throw err
