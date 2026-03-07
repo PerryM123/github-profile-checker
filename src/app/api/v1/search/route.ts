@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { githubFetch, type GithubFetchError } from '@/lib/github'
+import { STATUS_CODE } from '@/app/constants'
 
 type GithubSearchResponse = {
   total_count: number
@@ -18,7 +19,7 @@ export async function GET(req: Request) {
   if (!q) {
     return NextResponse.json(
       { error_message: 'qのパラメータは足りてません' },
-      { status: 400 }
+      { status: STATUS_CODE.BAD_REQUEST }
     )
   }
 
@@ -26,7 +27,7 @@ export async function GET(req: Request) {
   if (Number.isNaN(page) || !Number.isFinite(page) || page < 1) {
     return NextResponse.json(
       { error_message: 'pageパラメータが不正です' },
-      { status: 400 }
+      { status: STATUS_CODE.BAD_REQUEST }
     )
   }
 
@@ -52,13 +53,13 @@ export async function GET(req: Request) {
           owner_name: repo.owner.login,
         })),
       },
-      { status: 200 }
+      { status: STATUS_CODE.OK }
     )
   } catch (e) {
     const err = e as Partial<GithubFetchError>
     return NextResponse.json(
       { error_message: err.message ?? 'An unexpected error occurred' },
-      { status: 500 }
+      { status: STATUS_CODE.INTERNAL_SERVER_ERROR }
     )
   }
 }

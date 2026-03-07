@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { githubFetch, type GithubFetchError } from '@/lib/github'
+import { STATUS_CODE } from '@/app/constants'
 
 type GithubRepoResponse = {
   language: string | null
@@ -19,7 +20,7 @@ export async function GET(
   if (!owner_name?.trim() || !repo_name?.trim()) {
     return NextResponse.json(
       { error_message: 'owner_name または repo_name が不正です' },
-      { status: 400 }
+      { status: STATUS_CODE.BAD_REQUEST }
     )
   }
 
@@ -41,7 +42,7 @@ export async function GET(
           issues_count: data.open_issues_count,
         },
       },
-      { status: 200 }
+      { status: STATUS_CODE.OK }
     )
   } catch (e) {
     const err = e as Partial<GithubFetchError>
@@ -49,13 +50,13 @@ export async function GET(
     if (err.status === 404) {
       return NextResponse.json(
         { error_message: 'owner_name または repo_name が不正です' },
-        { status: 400 }
+        { status: STATUS_CODE.BAD_REQUEST }
       )
     }
 
     return NextResponse.json(
       { error_message: err.message ?? 'An unexpected error occurred' },
-      { status: 500 }
+      { status: STATUS_CODE.INTERNAL_SERVER_ERROR }
     )
   }
 }
