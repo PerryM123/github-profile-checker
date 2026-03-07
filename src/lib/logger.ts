@@ -14,4 +14,18 @@ const logger = pino({
   }),
 })
 
+type LogContext = Record<string, unknown>
+
+export function logApiError(
+  message: string,
+  error: unknown,
+  context: LogContext = {}
+) {
+  logger.error({ err: error, ...context }, message)
+}
+
+export function logApiWarn(message: string, context: LogContext = {}) {
+  logger.warn(context, message)
+}
+
 export default logger
