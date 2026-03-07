@@ -54,7 +54,7 @@ export async function GET(
     }
 
     return NextResponse.json(
-      { error_message: err.message ?? 'An unexpected error occurred' },
+      { error_message: err.message ?? '予期せぬエラーが発生しました' },
       { status: STATUS_CODE.INTERNAL_SERVER_ERROR }
     )
   }

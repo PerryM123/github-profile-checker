@@ -174,7 +174,7 @@ paths:
                 properties:
                   error_message:
                     type: string
-                    example: An unexpected error occurred
+                    example: 予期せぬエラーが発生しました
   /api/v1/{owner_name}/{repo_name}:
     get:
       summary: リポジトリ詳細を取得する
@@ -270,4 +270,4 @@ paths:
                   error_message:
                     type: string
               example:
-                error_message: 'An unexpected error occurred'
+                error_message: '予期せぬエラーが発生しました'
