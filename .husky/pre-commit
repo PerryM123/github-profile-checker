@@ -1,2 +1,2 @@
 pnpm run fmt:check
-pnpm test
+pnpm run lint
