@@ -27,7 +27,6 @@ describe('GET /api/v1/:owner_name/:repo_name', () => {
     })
     const body = await response.json()
     expect(response.status).toBe(200)
-    console.log('perry: body: ', body)
     expect(body.avatar_url).toBe(
       'https://avatars.githubusercontent.com/u/69631?v=4'
     )
