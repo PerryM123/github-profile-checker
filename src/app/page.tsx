@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type Repository = {
   avatar_url: string
@@ -28,42 +29,45 @@ export default function Home() {
   const [hasMore, setHasMore] = useState(false)
   const observerTarget = useRef<HTMLDivElement>(null)
 
-  const fetchPage = async (page: number, append: boolean = false) => {
-    const loadingState = append ? setLoadingMore : setLoading
-    loadingState(true)
-    setError(null)
-    try {
-      const res = await fetch(
-        `/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}&page=${page}`
-      )
-      const data: SearchResponse = await res.json()
-      if (!res.ok || data.error_message) {
-        setError(data.error_message || '検索に失敗しました')
+  const fetchPage = useCallback(
+    async (page: number, append: boolean = false) => {
+      const loadingState = append ? setLoadingMore : setLoading
+      loadingState(true)
+      setError(null)
+      try {
+        const res = await fetch(
+          `/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}&page=${page}`
+        )
+        const data: SearchResponse = await res.json()
+        if (!res.ok || data.error_message) {
+          setError(data.error_message || '検索に失敗しました')
+          if (!append) {
+            setResults([])
+            setTotalCount(null)
+          }
+        } else {
+          if (append) {
+            setResults((prev) => [...prev, ...(data.result || [])])
+          } else {
+            setResults(data.result || [])
+          }
+          setTotalCount(data.total_count)
+          setTotalPages(data.total_pages)
+          setCurrentPage(page)
+          setHasMore(page < data.total_pages)
+        }
+      } catch {
+        setError('予期せぬエラーが発生しました')
         if (!append) {
           setResults([])
           setTotalCount(null)
         }
-      } else {
-        if (append) {
-          setResults((prev) => [...prev, ...(data.result || [])])
-        } else {
-          setResults(data.result || [])
-        }
-        setTotalCount(data.total_count)
-        setTotalPages(data.total_pages)
-        setCurrentPage(page)
-        setHasMore(page < data.total_pages)
+      } finally {
+        loadingState(false)
       }
-    } catch {
-      setError('予期せぬエラーが発生しました')
-      if (!append) {
-        setResults([])
-        setTotalCount(null)
-      }
-    } finally {
-      loadingState(false)
-    }
-  }
+    },
+    [searchQuery]
+  )
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
@@ -84,7 +88,7 @@ export default function Home() {
       return
     }
     await fetchPage(currentPage + 1, true)
-  }, [currentPage, totalPages, hasMore, loadingMore, searchQuery])
+  }, [currentPage, totalPages, hasMore, loadingMore, fetchPage])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -189,12 +193,12 @@ export default function Home() {
             {results.length > 0 && (
               <div className="mt-6 space-y-3">
                 {results.map((repo, index) => (
-                  <a
+                  <Link
                     key={`${repo.owner_name}-${repo.repository_name}-${index}`}
-                    href={`/repository-details?owner=${encodeURIComponent(
+                    href={`/repository-details/${encodeURIComponent(
                       repo.owner_name
-                    )}&repo=${encodeURIComponent(repo.repository_name)}`}
-                    className="flex items-center rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all transition-shadow hover:opacity-30 hover:shadow-md"
+                    )}/${encodeURIComponent(repo.repository_name)}`}
+                    className="flex items-center rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:opacity-30 hover:shadow-md"
                   >
                     <Image
                       src={repo.avatar_url}
@@ -221,7 +225,7 @@ export default function Home() {
                         d="M9 5l7 7-7 7"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 ))}
                 {hasMore && (
                   <div
