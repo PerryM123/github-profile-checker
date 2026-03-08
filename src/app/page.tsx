@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 
 type Repository = {
@@ -20,44 +20,100 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   const [results, setResults] = useState<Repository[]>([])
   const [loading, setLoading] = useState(false)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [totalCount, setTotalCount] = useState<number | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState<number | null>(null)
+  const [hasMore, setHasMore] = useState(false)
+  const observerTarget = useRef<HTMLDivElement>(null)
+
+  const fetchPage = async (page: number, append: boolean = false) => {
+    const loadingState = append ? setLoadingMore : setLoading
+    loadingState(true)
+    setError(null)
+    try {
+      const res = await fetch(
+        `/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}&page=${page}`
+      )
+      const data: SearchResponse = await res.json()
+      if (!res.ok || data.error_message) {
+        setError(data.error_message || '検索に失敗しました')
+        if (!append) {
+          setResults([])
+          setTotalCount(null)
+        }
+      } else {
+        if (append) {
+          setResults((prev) => [...prev, ...(data.result || [])])
+        } else {
+          setResults(data.result || [])
+        }
+        setTotalCount(data.total_count)
+        setTotalPages(data.total_pages)
+        setCurrentPage(page)
+        setHasMore(page < data.total_pages)
+      }
+    } catch {
+      setError('予期せぬエラーが発生しました')
+      if (!append) {
+        setResults([])
+        setTotalCount(null)
+      }
+    } finally {
+      loadingState(false)
+    }
+  }
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
       setResults([])
       setError(null)
       setTotalCount(null)
+      setTotalPages(null)
+      setCurrentPage(1)
+      setHasMore(false)
       return
     }
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch(
-        `/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}`
-      )
-      const data: SearchResponse = await res.json()
-      if (!res.ok || data.error_message) {
-        setError(data.error_message || '検索に失敗しました')
-        setResults([])
-        setTotalCount(null)
-      } else {
-        setResults(data.result || [])
-        setTotalCount(data.total_count)
-      }
-    } catch {
-      setError('予期せぬエラーが発生しました')
-      setResults([])
-      setTotalCount(null)
-    } finally {
-      setLoading(false)
-    }
+    setCurrentPage(1)
+    await fetchPage(1, false)
   }
+
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore || currentPage >= (totalPages || 0)) {
+      return
+    }
+    await fetchPage(currentPage + 1, true)
+  }, [currentPage, totalPages, hasMore, loadingMore, searchQuery])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loadingMore && !loading) {
+          loadMore()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    const currentTarget = observerTarget.current
+    if (currentTarget) {
+      observer.observe(currentTarget)
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget)
+      }
+    }
+  }, [hasMore, loadingMore, loading, loadMore])
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSearch()
     }
   }
+
   return (
     <div>
       <main className="relative min-h-[calc(100vh-80px)]">
@@ -112,13 +168,11 @@ export default function Home() {
                 )}
               </div>
             </div>
-
             {error && (
               <div className="mt-4 rounded-lg bg-red-50 p-4 text-red-800">
                 {error}
               </div>
             )}
-
             {totalCount !== null && !error && (
               <div className="mt-4 text-sm text-gray-600">
                 {totalCount.toLocaleString()}件のリポジトリが見つかりました
@@ -162,6 +216,34 @@ export default function Home() {
                     </svg>
                   </a>
                 ))}
+                {hasMore && (
+                  <div
+                    ref={observerTarget}
+                    className="flex justify-center py-8"
+                  >
+                    {loadingMore && (
+                      <svg
+                        className="h-8 w-8 animate-spin text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>
