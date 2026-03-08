@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="p-6 text-center text-gray-600 dark:text-gray-200">
       <a
-        className="inline-block transition-all hover:scale-110 hover:opacity-80"
+        className="inline-block transition-all hover:scale-110 hover:opacity-30"
         href="https://github.com/PerryM123"
         target="_blank"
       >

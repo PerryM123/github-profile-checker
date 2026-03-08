@@ -145,6 +145,13 @@ export default function Home() {
                   placeholder="リポジトリ検索"
                   className="flex-1 text-lg text-gray-800 placeholder-gray-400 outline-none"
                 />
+                <button
+                  onClick={handleSearch}
+                  disabled={loading}
+                  className="ml-3 cursor-pointer rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  検索
+                </button>
                 {loading && (
                   <svg
                     className="ml-3 h-5 w-5 animate-spin text-gray-400"
@@ -187,7 +194,7 @@ export default function Home() {
                     href={`/repository-details?owner=${encodeURIComponent(
                       repo.owner_name
                     )}&repo=${encodeURIComponent(repo.repository_name)}`}
-                    className="flex items-center rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+                    className="flex items-center rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all transition-shadow hover:opacity-30 hover:shadow-md"
                   >
                     <Image
                       src={repo.avatar_url}

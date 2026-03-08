@@ -6,7 +6,7 @@ export default function Header() {
       <div className="mx-auto max-w-7xl px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="transition-all hover:opacity-80">
+            <Link href="/" className="transition-all hover:opacity-30">
               <h1 className="text-xl font-bold text-black">
                 GITHUB REPO SEARCH
               </h1>
