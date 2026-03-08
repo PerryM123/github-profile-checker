@@ -151,7 +151,7 @@ export default function Home() {
               />
               <Button
                 onClick={handleSearch}
-                disabled={loading}
+                disabled={loading || !searchQuery.length}
                 className="ml-3"
               >
                 検索
