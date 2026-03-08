@@ -119,147 +119,142 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <main className="relative min-h-[calc(100vh-80px)]">
-        <div className="relative z-10 flex min-h-[calc(100vh-80px)] flex-col items-center px-6 py-20">
-          <h2 className="mb-12 text-center text-5xl font-bold md:text-6xl">
-            Githubリポジトリを検索しましょう
-          </h2>
-          <div className="w-full max-w-4xl">
-            <div className="flex items-center rounded-lg p-2 shadow-2xl">
-              <div className="flex flex-1 items-center px-4">
+    <main>
+      <div className="flex flex-col items-center px-6 py-20">
+        <h2 className="mb-12 text-center text-5xl font-bold md:text-6xl">
+          Githubリポジトリを検索しましょう
+        </h2>
+        <div className="w-full max-w-4xl">
+          <div className="flex items-center rounded-lg p-2 shadow-2xl">
+            <div className="flex flex-1 items-center px-4">
+              <svg
+                className="mr-3 h-6 w-6 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="リポジトリ検索"
+                className="flex-1 text-lg text-gray-800 placeholder-gray-400 outline-none"
+              />
+              <button
+                onClick={handleSearch}
+                disabled={loading}
+                className="ml-3 cursor-pointer rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                検索
+              </button>
+              {loading && (
                 <svg
-                  className="mr-3 h-6 w-6 text-gray-400"
+                  className="ml-3 h-5 w-5 animate-spin text-gray-400"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="リポジトリ検索"
-                  className="flex-1 text-lg text-gray-800 placeholder-gray-400 outline-none"
-                />
-                <button
-                  onClick={handleSearch}
-                  disabled={loading}
-                  className="ml-3 cursor-pointer rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
+              )}
+            </div>
+          </div>
+          {error && (
+            <div className="mt-4 rounded-lg bg-red-50 p-4 text-red-800">
+              {error}
+            </div>
+          )}
+          {totalCount !== null && !error && (
+            <div className="mt-4 text-sm text-gray-600">
+              {totalCount.toLocaleString()}件のリポジトリが見つかりました
+            </div>
+          )}
+
+          {results.length > 0 && (
+            <div className="mt-6 space-y-3">
+              {results.map((repo, index) => (
+                <Link
+                  key={`${repo.owner_name}-${repo.repository_name}-${index}`}
+                  href={`/repository-details/${encodeURIComponent(
+                    repo.owner_name
+                  )}/${encodeURIComponent(repo.repository_name)}`}
+                  className="flex items-center rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:opacity-30 hover:shadow-md"
                 >
-                  検索
-                </button>
-                {loading && (
+                  <Image
+                    src={repo.avatar_url}
+                    alt={repo.owner_name}
+                    width={48}
+                    height={48}
+                    className="mr-4 h-12 w-12 rounded-full"
+                  />
+                  <div className="flex-1">
+                    <div className="font-semibold text-gray-900">
+                      {repo.owner_name}/{repo.repository_name}
+                    </div>
+                  </div>
                   <svg
-                    className="ml-3 h-5 w-5 animate-spin text-gray-400"
+                    className="h-5 w-5 text-gray-400"
                     fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
                     <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
                     />
                   </svg>
-                )}
-              </div>
-            </div>
-            {error && (
-              <div className="mt-4 rounded-lg bg-red-50 p-4 text-red-800">
-                {error}
-              </div>
-            )}
-            {totalCount !== null && !error && (
-              <div className="mt-4 text-sm text-gray-600">
-                {totalCount.toLocaleString()}件のリポジトリが見つかりました
-              </div>
-            )}
-
-            {results.length > 0 && (
-              <div className="mt-6 space-y-3">
-                {results.map((repo, index) => (
-                  <Link
-                    key={`${repo.owner_name}-${repo.repository_name}-${index}`}
-                    href={`/repository-details/${encodeURIComponent(
-                      repo.owner_name
-                    )}/${encodeURIComponent(repo.repository_name)}`}
-                    className="flex items-center rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:opacity-30 hover:shadow-md"
-                  >
-                    <Image
-                      src={repo.avatar_url}
-                      alt={repo.owner_name}
-                      width={48}
-                      height={48}
-                      className="mr-4 h-12 w-12 rounded-full"
-                    />
-                    <div className="flex-1">
-                      <div className="font-semibold text-gray-900">
-                        {repo.owner_name}/{repo.repository_name}
-                      </div>
-                    </div>
+                </Link>
+              ))}
+              {hasMore && (
+                <div ref={observerTarget} className="flex justify-center py-8">
+                  {loadingMore && (
                     <svg
-                      className="h-5 w-5 text-gray-400"
+                      className="h-8 w-8 animate-spin text-gray-400"
                       fill="none"
-                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
                       <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       />
                     </svg>
-                  </Link>
-                ))}
-                {hasMore && (
-                  <div
-                    ref={observerTarget}
-                    className="flex justify-center py-8"
-                  >
-                    {loadingMore && (
-                      <svg
-                        className="h-8 w-8 animate-spin text-gray-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   )
 }
