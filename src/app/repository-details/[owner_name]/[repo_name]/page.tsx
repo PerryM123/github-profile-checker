@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Button from '@/app/components/Button'
 
 type RepositoryDetails = {
   avatar_url: string
@@ -31,12 +32,9 @@ export default async function RepositoryDetailsPage({
             <p className="mb-4">
               owner または repo パラメータが指定されていません
             </p>
-            <Link
-              href="/"
-              className="inline-block rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-gray-900"
-            >
+            <Button href="/" variant="link">
               検索ページに戻る
-            </Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -77,12 +75,9 @@ export default async function RepositoryDetailsPage({
             <p className="mb-4">
               {error || 'リポジトリ情報を取得できませんでした'}
             </p>
-            <Link
-              href="/"
-              className="inline-block rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-gray-900"
-            >
+            <Button href="/" variant="link">
               検索ページに戻る
-            </Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -161,11 +156,12 @@ export default async function RepositoryDetailsPage({
           </div>
 
           <div className="mt-6">
-            <a
+            <Button
               href={`https://github.com/${owner}/${repo}`}
+              variant="link"
+              className="inline-flex items-center"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-gray-900"
             >
               GitHubで見る
               <svg
@@ -181,7 +177,7 @@ export default async function RepositoryDetailsPage({
                   d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                 />
               </svg>
-            </a>
+            </Button>
           </div>
         </div>
       </div>

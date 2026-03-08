@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import Button from './components/Button'
 
 type Repository = {
   avatar_url: string
@@ -148,13 +149,13 @@ export default function Home() {
                 placeholder="リポジトリ検索"
                 className="flex-1 text-lg text-gray-800 placeholder-gray-400 outline-none"
               />
-              <button
+              <Button
                 onClick={handleSearch}
                 disabled={loading}
-                className="ml-3 cursor-pointer rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
+                className="ml-3"
               >
                 検索
-              </button>
+              </Button>
               {loading && (
                 <svg
                   className="ml-3 h-5 w-5 animate-spin text-gray-400"
