@@ -8,5 +8,8 @@
   "useTabs": false,
   "arrowParens": "always",
   "endOfLine": "lf",
-  "ignorePatterns": ["dist/**", "node_modules/**", "src/app/globals.css"]
+  "ignorePatterns": ["dist/**", "node_modules/**", "src/app/globals.css"],
+  "experimentalTailwindcss": {
+    "stylesheet": "./src/app/globals.css"
+  }
 }
