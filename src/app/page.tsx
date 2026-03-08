@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import Button from './components/Button'
+import Link from '@/app/components/Link'
+import Button from '@/app/components/Button'
 
 type Repository = {
   avatar_url: string

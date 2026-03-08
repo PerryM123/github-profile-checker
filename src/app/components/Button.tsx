@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/app/components/Link'
 import { ReactNode } from 'react'
 import { isExternalLink } from '@/app/utils'
 
