@@ -10,9 +10,15 @@
     "test": "vitest",
     "prepare": "husky",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "e2e:headless": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:show-report": "playwright show-report",
+    "e2e:codegen": "playwright codegen",
+    "e2e:test-list": "playwright test --list"
   },
   "dependencies": {
+    "dotenv": "^17.3.1",
     "js-yaml": "^4.1.0",
     "next": "16.1.6",
     "next-swagger-doc": "^0.4.1",
@@ -22,6 +28,7 @@
     "swagger-ui-react": "^5.32.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
