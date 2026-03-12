@@ -50,7 +50,6 @@ export default async function RepositoryDetailsPage({
       { cache: 'no-store' }
     )
     const data: RepositoryDetails = await res.json()
-    console.log('perry: data: ', data)
     if (!res.ok || data.error_message) {
       error = data.error_message || 'リポジトリ情報の取得に失敗しました'
       details = null
@@ -61,11 +60,6 @@ export default async function RepositoryDetailsPage({
     error = '予期せぬエラーが発生しました'
     details = null
   }
-
-  console.log('perry: before render: ', {
-    error,
-    details,
-  })
   if (error || !details) {
     return (
       <div className="flex items-center justify-center px-6">
