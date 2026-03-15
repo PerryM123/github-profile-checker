@@ -49,7 +49,7 @@ jobs:
         run: echo "Preview deployed to ${{ steps.deploy.outputs.preview_url }}"
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium --with-deps
 
       - name: Run e2e tests
         run: pnpm run e2e:headless
