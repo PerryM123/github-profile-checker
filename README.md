@@ -35,7 +35,7 @@ https://github-profile-checker-two.vercel.app/api-doc
 
 **その他**
 
-- フォーマッター: Prettier
+- フォーマッター: Oxfmt
 - リンター: ESlint
 - コード品質を担保するツール: Huskyのpre-commitとpre-push
 
@@ -105,7 +105,7 @@ $ pnpm run dev
 
 - **ドキュメンテーション**: どんなエンドポイントが提供されてるか分かるようにAPI仕様書を追加
 - **Pre-commit/Pre-pushフック**: Huskyを使用し、コミット前にリンターとフォーマッターを実行
-- **コードを統一**: 開発しやすい環境にするようにPrettierとESLint
+- **コードを統一**: 開発しやすい環境にするようにOxfmtとESLint
 
 ## AI利用レポートについて
 
