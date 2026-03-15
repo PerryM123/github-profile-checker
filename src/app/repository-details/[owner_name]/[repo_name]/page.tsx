@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from '@/app/components/Link'
 import Button from '@/app/components/Button'
+import { logApiError } from '@/lib/logger'
 
 type RepositoryDetails = {
   avatar_url: string
@@ -46,7 +47,7 @@ export default async function RepositoryDetailsPage({
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/v1/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
+      `${process.env.APP_URL}/api/v1/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
       { cache: 'no-store' }
     )
     const data: RepositoryDetails = await res.json()
@@ -56,7 +57,8 @@ export default async function RepositoryDetailsPage({
     } else {
       details = data
     }
-  } catch {
+  } catch (error) {
+    logApiError('リポジトリ情報の取得に失敗しました', error)
     error = '予期せぬエラーが発生しました'
     details = null
   }
