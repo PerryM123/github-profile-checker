@@ -37,9 +37,17 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  webServer: {
-    command: 'pnpm dev',
-    url: process.env.APP_URL,
-    reuseExistingServer: !process.env.CI,
-  },
+  // CI/CDの場合はwebServerを利用しない
+  ...(process.env.APP_URL &&
+  !process.env.APP_URL.includes('localhost') &&
+  !process.env.APP_URL.includes('127.0.0.1')
+    ? {}
+    : {
+        // ローカルの場合
+        webServer: {
+          command: 'pnpm dev',
+          url: process.env.APP_URL || 'http://localhost:3000',
+          reuseExistingServer: !process.env.CI,
+        },
+      }),
 })
