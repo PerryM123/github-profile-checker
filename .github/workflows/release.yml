@@ -37,7 +37,7 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel Preview Environment
         id: deploy
@@ -67,8 +67,8 @@ jobs:
     outputs:
       preview_url: ${{ steps.deploy.outputs.preview_url }}
 
-  promote:
-    name: Promote to Production
+  production:
+    name: Build and Deploy to Production
     needs: preview
     environment: production
     runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ jobs:
         run: npm i -g vercel
 
       - name: Pull Vercel Environment Info
-        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
