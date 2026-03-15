@@ -47,7 +47,7 @@ export default async function RepositoryDetailsPage({
 
   try {
     const res = await fetch(
-      `https://${process.env.VERCEL_URL}/api/v1/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
+      `${process.env.APP_URL}/api/v1/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
       { cache: 'no-store' }
     )
     const data: RepositoryDetails = await res.json()
