@@ -54,7 +54,7 @@ jobs:
       - name: Run e2e tests
         run: pnpm run e2e:headless
         env:
-          BASE_URL: ${{ steps.deploy.outputs.preview_url }}
+          APP_URL: ${{ steps.deploy.outputs.preview_url }}
 
       - name: Upload Playwright report
         if: failure()
