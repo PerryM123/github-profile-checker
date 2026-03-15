@@ -1,0 +1,51 @@
+name: Deploy to Preview Environment & Run E2E
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  workflow_dispatch:
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js from .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm ci
+
+      - name: Run linter
+        run: pnpm run lint
+
+      - name: Run unit/integration tests
+        run: pnpm run test
+
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel Preview Environment
+        id: deploy
+        run: |
+          PREVIEW_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run e2e tests
+        run: npm run test:e2e
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.preview_url }}
+    outputs:
+      preview_url: ${{ steps.deploy.outputs.preview_url }}
