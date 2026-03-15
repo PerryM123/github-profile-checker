@@ -2,21 +2,18 @@
 
 ## Demo Link
 
-TODO
+https://github-profile-checker-two.vercel.app/
 
-## Main Features
+![alt text](/docs/images/features.gif)
 
-### TODO①
+## API仕様書
 
-TODO
+https://github-profile-checker-two.vercel.app/api-doc
 
-### TODO②
+## 機能一覧
 
-TODO
-
-### TODO③
-
-TODO
+- リポジトリ検索
+- リポジトリ詳細閲覧
 
 ## プロジェクト概要
 
@@ -38,7 +35,7 @@ TODO
 
 **その他**
 
-- フォーマッター: Prettier
+- フォーマッター: Oxfmt
 - リンター: ESlint
 - コード品質を担保するツール: Huskyのpre-commitとpre-push
 
@@ -47,11 +44,15 @@ TODO
 - **Frontend Hosting:** Vercel
 - **CI/CD:** GitHub Actions
 
-## Pull Request Overview For This Assignment
+## プルリクまとめ
 
-1. TODO
-1. TODO
-1. TODO
+1. [Next.jsと必要なパッケージを導入](https://github.com/PerryM123/github-profile-checker/pull/1)
+1. [サーバサイドの実装とAPI仕様書の作成（単体テストも含め）](https://github.com/PerryM123/github-profile-checker/pull/2)
+1. [フロント側でページ作成](https://github.com/PerryM123/github-profile-checker/pull/3)
+1. [Playwrightを導入し、E2Eテストを書く](https://github.com/PerryM123/github-profile-checker/pull/4)
+1. [本番リリースできるようにCICDパイプラインを追加](https://github.com/PerryM123/github-profile-checker/pull/5)
+1. [E2Eテストで見つかったバグを解消](https://github.com/PerryM123/github-profile-checker/pull/6)
+1. [README更新](https://github.com/PerryM123/github-profile-checker/pull/7)
 
 ## Setup
 
@@ -59,7 +60,9 @@ TODO
 
 ### nvm
 
-このプロジェクトはnvm（Node Version Manager）でnodeバージョンを管理してるので必ずnvmを使って固定となったnodeバージョンをインストールしていただければと思います。未導入の方へ[[Qiita] nvm(Node Version Manager)を使ってNode.jsをインストールする手順](https://qiita.com/ffggss/items/94f1c4c5d311db2ec71a)の記事を参考してください。
+このプロジェクトはnvm（Node Version Manager）でnodeバージョンを管理してるので必ずnvmを使って固定となったnodeバージョンをインストールしていただければと思います。
+
+未導入の方へ[[Qiita] nvm(Node Version Manager)を使ってNode.jsをインストールする手順](https://qiita.com/ffggss/items/94f1c4c5d311db2ec71a)の記事を参考してください。
 
 ### env
 
@@ -74,4 +77,43 @@ $ pnpm i
 $ pnpm run dev
 ```
 
-リンク先: http://localhost:3000/
+ローカル環境のリンク先: http://localhost:3000/
+
+## 工夫した点・拘ったポイント
+
+### プロダクション品質を意識した実装
+
+- **エラーハンドリング**: API呼び出し時のエラーを適切にキャッチし、ユーザーフレンドリーなエラーメッセージを表示
+- **サーバーサイドのログ出力**: サーバーサイドでのエラーや警告をログに記録し、デバッグを容易に
+- **バリデーション**: APIルートで入力パラメータのバリデーションを実装し、不正なリクエストを早期に検出
+- **型安全性**: TypeScriptを活用し、コンパイル時にエラーを検出
+
+### UXの向上
+
+- **無限スクロール**: Intersection Observer APIを使用し、ページネーションよりもスムーズなユーザ体験を提供
+- **ローディング状態**: 検索中と追加読み込み中で異なるローディングインジケーターを表示
+- **レスポンシブデザイン**: モバイルからデスクトップまで快適に使用できるUI
+- **エラー表示**: エラー発生時に明確なメッセージとアクションを提示
+
+### テスト戦略
+
+- **単体テスト・結合テスト**: Vitestを使用し、APIルートとコンポーネントの動作を保証
+- **E2Eテスト**: Playwrightで実際のユーザーフローをテストし、回帰を防止
+- **CI/CD**: GitHub Actionsでデプロイする直前に単体・結合・E2Eテストを実行
+
+### コード品質＆開発体験
+
+- **ドキュメンテーション**: どんなエンドポイントが提供されてるか分かるようにAPI仕様書を追加
+- **Pre-commit/Pre-pushフック**: Huskyを使用し、コミット前にリンターとフォーマッターを実行
+- **コードを統一**: 開発しやすい環境にするようにOxfmtとESLint
+
+**パイプラインの特徴:**
+
+- **段階的なデプロイ**: Preview環境でテストを実行してから本番環境にデプロイすることで、本番環境への影響を最小化
+- **自動テスト実行**: デプロイ前に必ず単体・結合・E2Eテストを実行し、品質を担保
+- **実際のデプロイ環境でのE2Eテスト**: Preview環境にデプロイした後にE2Eテストを実行することで、実際の本番環境に近い状態でテストを実施
+- **失敗時のデバッグ支援**: E2Eテストが失敗した場合、Playwrightレポートをアーティファクトとして保存し、後から確認可能
+
+## AI利用レポートについて
+
+主にCursorのAsk・Agentモードを利用しつつ開発しました。LLMのハルシネーションを避けるため、最優先できちんと単体＆結合テストとAPI仕様書を作成し、僕はどういうものを作ってるかAIが把握してくれるように開発を進めました。
